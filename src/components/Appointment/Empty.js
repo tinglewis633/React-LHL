@@ -1,7 +1,7 @@
 import React from "react";
 // import classNames from "classnames";
 
-export default function Header(props) {
+export default function Empty(props) {
   return (
     <main className='appointment__add'>
       <img

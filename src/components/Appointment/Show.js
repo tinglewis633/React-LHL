@@ -1,7 +1,7 @@
 import React from "react";
 // import classNames from "classnames";
-
-export default function Header(props) {
+import "../Appointment/styles.scss";
+export default function Show(props) {
   return (
     <main className='appointment__card appointment__card--show'>
       <section className='appointment__card-left'>
@@ -17,11 +17,13 @@ export default function Header(props) {
             className='appointment__actions-button'
             src='images/edit.png'
             alt='Edit'
+            onClick={props.onEdit}
           />
           <img
             className='appointment__actions-button'
             src='images/trash.png'
             alt='Delete'
+            onClick={props.onDelete}
           />
         </section>
       </section>
