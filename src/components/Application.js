@@ -1,9 +1,70 @@
 import "components/Application.scss";
-import DayList from "components/DayList"
+import DayList from "components/DayList";
 import React, { useState } from "react";
-
+import Appointment from "./Appointment/Appointment";
+const appointments = [
+  {
+    id: 0,
+    time: "12pm",
+  },
+  {
+    id: 1,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      },
+    },
+  },
+  {
+    id: 2,
+    time: "2pm",
+  },
+  {
+    id: 3,
+    time: "3pm",
+  },
+  {
+    id: 4,
+    time: "4pm",
+    interview: {
+      student: "Lydia Miller-Jones123",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      },
+    },
+  },
+  {
+    id: 5,
+    time: "5pm",
+  },
+  {
+    id: 6,
+    time: "6pm",
+    interview: {
+      student: "Lydia Miller-Jones321",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      },
+    },
+  },
+  {
+    id: 7,
+    time: "7pm",
+  },
+];
+const appointmentList = appointments.map((appointment) => {
+  return <Appointment key={appointment.id} {...appointment} />;
+});
 export default function Application(props) {
-  const [day, setDay] = useState("Monday")
+  const [day, setDay] = useState("Monday");
   const days = [
     {
       id: 1,
@@ -31,11 +92,7 @@ export default function Application(props) {
         />
         <hr className='sidebar__separator sidebar--centered' />
         <nav className='sidebar__menu'>
-          <DayList
-            days={days}
-            day={day}
-            setDay={setDay}
-          />
+          <DayList days={days} day={day} setDay={setDay} />
         </nav>
         <img
           className='sidebar__lhl sidebar--centered'
@@ -43,9 +100,7 @@ export default function Application(props) {
           alt='Lighthouse Labs'
         />
       </section>
-      <section className='schedule'>
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
-      </section>
+      <section className='schedule'>{appointmentList}</section>
     </main>
   );
 }

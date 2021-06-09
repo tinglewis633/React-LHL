@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useState }  from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
-import { useState } from "react";
 // import classNames from "classnames";
 
 export default function Form(props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
+  
   const handleChange = (event) => {
     const { value } = event.target;
-
     setName(value);
   };
-  const reset = (event) => {
+  const reset = () => {
     setName("");
-    setInterviewer("null");
+    setInterviewer(null);
+    props.onCancel()
   };
+
+  const save = () => {
+    props.onSave(name, interviewer)
+  }
   return (
     <main className='appointment__card appointment__card--create'>
       <section className='appointment__card-left'>
@@ -25,6 +29,7 @@ export default function Form(props) {
             className='appointment__create-input text--semi-bold'
             name='name'
             type='text'
+            value={name}
             placeholder='Enter Student Name'
             onChange={handleChange}
             /*
@@ -34,8 +39,8 @@ export default function Form(props) {
         </form>
         <InterviewerList
           interviewers={props.interviewers}
-          // value={interviewer}
-          onChange={props.setInterviewer}
+          interviewer={interviewer}
+          setInterviewer={setInterviewer}
         />
       </section>
       <section className='appointment__card-right'>
@@ -43,7 +48,9 @@ export default function Form(props) {
           <Button danger onClick={reset}>
             Cancel
           </Button>
-          <Button confirm>Save</Button>
+          <Button confirm onClick={save}>
+            Save
+          </Button>
         </section>
       </section>
     </main>
