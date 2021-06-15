@@ -1,117 +1,35 @@
 import "components/Application.scss";
 import DayList from "components/DayList";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Appointment from "./Appointment/Appointment";
-import { getAppointmentsForDay } from "../helpers/selectors";
-const axios = require("axios");
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "../helpers/selectors";
+import useApplicationData from "hooks/useApplicationData";
 
+export default function Application() {
+  const { state, setDay, bookInterview, cancelInterview } =
+    useApplicationData();
 
-// const appointments = [
-//   {
-//     id: 0,
-//     time: "12pm",
-//   },
-//   {
-//     id: 1,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 2,
-//     time: "2pm",
-//   },
-//   {
-//     id: 3,
-//     time: "3pm",
-//   },
-//   {
-//     id: 4,
-//     time: "4pm",
-//     interview: {
-//       student: "Lydia Miller-Jones123",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 5,
-//     time: "5pm",
-//   },
-//   {
-//     id: 6,
-//     time: "6pm",
-//     interview: {
-//       student: "Lydia Miller-Jones321",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 7,
-//     time: "7pm",
-//   },
-// ];
-
-
-
-export default function Application(props) {
-  // const days = [
-  //   {
-  //     id: 1,
-  //     name: "Monday",
-  //     spots: 2,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Tuesday",
-  //     spots: 5,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Wednesday",
-  //     spots: 0,
-  //   },
-  // ];
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
-    appointments: {},
-  });
-  const setDay = (day) => setState({ ...state, day });
-
-  useEffect(() => {
-    Promise.all([
-      axios.get("/api/days"),
-      axios.get("/api/interviewers"),
-      axios.get("/api/appointments"),
-    ]).then((all) => {
-      console.log(all);
-      const [days, interviewers, appointments] = all;
-      setState((prev) => ({
-        ...prev,
-        days: days.data,
-        appointments: appointments.data,
-        interviewers: interviewers.data,
-      }));
-    });
-  }, []);
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+  
+  const dailyInterviewers = getInterviewersForDay(state, state.day);
   const appointmentList = dailyAppointments.map((appointment) => {
-    return <Appointment key={appointment.id} {...appointment} />;
+    const interview = getInterview(state, appointment.interview);
+    
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+        interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
+      />
+    );
   });
   return (
     <main className='layout'>

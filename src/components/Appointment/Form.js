@@ -1,4 +1,4 @@
-import React, { useState }  from "react";
+import React, { useState } from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
 // import classNames from "classnames";
@@ -7,7 +7,6 @@ export default function Form(props) {
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
-  
   const handleChange = (event) => {
     const { value } = event.target;
     setName(value);
@@ -15,12 +14,21 @@ export default function Form(props) {
   const reset = () => {
     setName("");
     setInterviewer(null);
-    props.onCancel()
+    props.onCancel();
   };
 
   const save = () => {
-    props.onSave(name, interviewer)
-  }
+    if (name === "") {
+      props.onCancel();
+      alert("Please enter a student name");
+    } else if (interviewer === null) {
+      props.onCancel();
+      alert("Please select a interviewer");
+    } else {
+      props.onSave(name, interviewer);
+    }
+  };
+
   return (
     <main className='appointment__card appointment__card--create'>
       <section className='appointment__card-left'>
