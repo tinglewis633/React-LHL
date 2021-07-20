@@ -37,7 +37,6 @@ export default function Application() {
   return (
     <main className="layout">
       <section className="sidebar">
-        <h2></h2>
         <img
           className="sidebar--centered"
           src="images/logo.png"

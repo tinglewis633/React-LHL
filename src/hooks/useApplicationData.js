@@ -14,7 +14,7 @@ const updateSpots = (days, id, appointments) => {
   }
   const index = days.findIndex((day) => day.id === whichDayAppointment.id);
   const newAppointment = { ...whichDayAppointment, spots: spots };
-  console.log(appointments);
+
 
   const newDays = [...days];
   newDays[index] = newAppointment;
@@ -61,7 +61,7 @@ export default function useApplicationData() {
     };
     return axios.delete(`/api/appointments/${id}`).then(() => {
       const days = updateSpots(state.days, id, appointments);
-      console.log(days);
+
       setState({
         ...state,
         appointments,
