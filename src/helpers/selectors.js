@@ -8,7 +8,7 @@ export function getAppointmentsForDay(state, dayS) {
 }
 
 export function getInterview(state, interview) {
-  if (interview !== null && typeof interview.interviewer === "number") {
+  if (!!interview && typeof interview.interviewer === "number") {
     interview.interviewer = state.interviewers[interview.interviewer];
     return interview;
   }
