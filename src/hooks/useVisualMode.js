@@ -6,20 +6,24 @@ export default function useVisualMode(initial) {
   function transition(arg, isReplacing) {
     if (!isReplacing || isReplacing === undefined) {
       setMode(arg);
-      const newHistory = [...history]
-      newHistory.push(arg)
-      setHistory(newHistory)
+      let newHistory = [...history];
+      newHistory.push(arg);
+      setHistory(newHistory);
     }
     if (isReplacing === true) {
-      history.pop();
-      history.push(arg);
+      let newHistory = [...history];
+      newHistory.pop();
+      newHistory.push(arg);
+      setHistory(newHistory);
       setMode(arg);
     }
   }
   function back() {
     if (history.length > 1) {
       setMode(history[history.length - 2]);
-      history.pop();
+      let newHistory = [...history];
+      newHistory.pop();
+      setHistory(newHistory);
     }
   }
 
