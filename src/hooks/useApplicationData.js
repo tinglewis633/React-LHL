@@ -5,6 +5,7 @@ const updateSpots = (days, id, appointments) => {
 
   let spots = 0;
   for (const appointment in appointments) {
+    //check if no interview and if it is the appointment on the right day
     if (
       !appointments[appointment].interview &&
       whichDayAppointment.appointments.includes(appointments[appointment].id)
@@ -12,9 +13,10 @@ const updateSpots = (days, id, appointments) => {
       spots++;
     }
   }
+
+  // find the day and update spot on that day
   const index = days.findIndex((day) => day.id === whichDayAppointment.id);
   const newAppointment = { ...whichDayAppointment, spots: spots };
-
 
   const newDays = [...days];
   newDays[index] = newAppointment;
@@ -40,6 +42,7 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+    // updating the state
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       const days = updateSpots(state.days, id, appointments);
       setState({
@@ -59,6 +62,7 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+    //delete appointment with the given ID
     return axios.delete(`/api/appointments/${id}`).then(() => {
       const days = updateSpots(state.days, id, appointments);
 
@@ -69,6 +73,7 @@ export default function useApplicationData() {
       });
     });
   }
+  //fetching data and update state with it
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
