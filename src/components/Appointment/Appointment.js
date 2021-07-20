@@ -20,7 +20,6 @@ const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
-
   // Bring in mode and use transition() to switch component
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -52,9 +51,9 @@ export default function Appointment(props) {
       .then(() => transition(EMPTY))
       .catch(() => transition(ERROR_DELETE, true));
   }
-  
+
   return (
-    <article className='appointment'>
+    <article className="appointment">
       <Header time={props.time}></Header>
 
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
@@ -86,7 +85,7 @@ export default function Appointment(props) {
           message={
             "Some error occured while saving your interview please try again later"
           }
-          onError={back}
+          onError={() => transition(SHOW)}
         />
       )}
       {mode === ERROR_DELETE && (
@@ -94,7 +93,7 @@ export default function Appointment(props) {
           message={
             "Some error occured while deleting your interview please try again later"
           }
-          onError={back}
+          onError={() => transition(SHOW)}
         />
       )}
     </article>

@@ -6,7 +6,9 @@ export default function useVisualMode(initial) {
   function transition(arg, isReplacing) {
     if (!isReplacing || isReplacing === undefined) {
       setMode(arg);
-      history.push(arg);
+      const newHistory = [...history]
+      newHistory.push(arg)
+      setHistory(newHistory)
     }
     if (isReplacing === true) {
       history.pop();
