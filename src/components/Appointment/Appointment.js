@@ -85,7 +85,7 @@ export default function Appointment(props) {
           message={
             "Some error occured while saving your interview please try again later"
           }
-          onError={() => transition(SHOW)}
+          onError={() => transition(CREATE)}
         />
       )}
       {mode === ERROR_DELETE && (
